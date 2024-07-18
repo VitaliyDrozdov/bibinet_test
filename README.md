@@ -48,6 +48,19 @@ python manage.py generate_part
 exit
 ```
 
+
+## После запуска контейнеров сервисы будут доступны по адресам:
+*Для Djnago*
+<h3>
+    <a href="https://http://localhost:8000/django/"></a>
+</h3>
+
+*Для FastAPI*
+<h3>
+    <a href="https://http://localhost:9000/fastapi/"></a>
+</h3>
+
+
 ## Примеры запросов:
 - Список марок машин:
 ``` GET /django/mark/ ```

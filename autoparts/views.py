@@ -11,6 +11,8 @@ from .models import Mark, Model, Part
 
 
 class ModelList(ListView):
+    """Список моделей."""
+
     model = Model
     queryset = Model.objects.filter(is_visible=True)
     template_name = "model_list.html"
@@ -18,6 +20,8 @@ class ModelList(ListView):
 
 
 class MarkList(ListView):
+    """Список марок."""
+
     model = Mark
     queryset = Mark.objects.filter(is_visible=True)
     template_name = "mark_list.html"
@@ -25,6 +29,8 @@ class MarkList(ListView):
 
 
 class PartListView(ListView):
+    """Список всех запчастей."""
+
     model = Part
     queryset = Part.objects.all()
     template_name = "part_list.html"
@@ -34,6 +40,8 @@ class PartListView(ListView):
 
 @method_decorator(csrf_exempt, name="dispatch")
 class PartSearchView(View):
+    """Отправка POST запроса в виде json с фильтрами для поиска."""
+
     template_name = "search_part.html"
 
     def post(self, request, *args, **kwargs):
