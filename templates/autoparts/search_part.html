@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}Search Parts - My Auto Parts{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Search Auto Parts</h1>
+
+    <form method="post" action="{% url 'autoparts:search_part' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="markName" class="form-label">Mark Name</label>
+                    <input type="text" class="form-control" id="markName" name="mark_name" placeholder="Enter mark name">
+                </div>
+                <div class="col-md-3">
+                    <label for="partName" class="form-label">Part Name</label>
+                    <input type="text" class="form-control" id="partName" name="part_name" placeholder="Enter part name">
+                </div>
+                <div class="col-md-3">
+                    <label for="color" class="form-label">Color</label>
+                    <input type="text" class="form-control" id="color" name="params[color]" placeholder="Enter color">
+                </div>
+                <div class="col-md-3">
+                    <label for="priceGte" class="form-label">Price Greater Than</label>
+                    <input type="number" class="form-control" id="priceGte" name="price_gte" placeholder="Enter min price">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-3">
+                    <label for="priceLte" class="form-label">Price Less Than</label>
+                    <input type="number" class="form-control" id="priceLte" name="price_lte" placeholder="Enter max price">
+                </div>
+                <div class="col-md-3">
+                    <label for="isNewPart" class="form-label">Is New Part</label>
+                    <select class="form-select" id="isNewPart" name="params[is_new_part]">
+                        <option value="">Any</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="page" class="form-label">Page</label>
+                    <input type="number" class="form-control" id="page" name="page" value="1">
+                </div>
+                <div class="col-md-3 align-self-end">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="searchResults">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Mark Name</th>
+                    <th>Model Name</th>
+                    <th>Part Name</th>
+                    <th>Color</th>
+                    <th>Is New Part</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for part in parts %}
+                <tr>
+                    <td>{{ part.mark.name }}</td>
+                    <td>{{ part.model.name }}</td>
+                    <td>{{ part.name }}</td>
+                    <td>{{ part.json_data.color }}</td>
+                    <td>{{ part.json_data.is_new_part }}</td>
+                    <td>{{ part.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if parts.has_other_pages %}
+        <nav aria-label="Pagination">
+            <ul class="pagination justify-content-center">
+                {% if parts.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ parts.previous_page_number }}">Previous</a>
+                </li>
+                {% endif %}
+                {% for num in parts.paginator.page_range %}
+                <li class="page-item {% if parts.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                {% if parts.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ parts.next_page_number }}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
