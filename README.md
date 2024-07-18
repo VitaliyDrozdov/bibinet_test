@@ -50,11 +50,12 @@ exit
 
 
 ## После запуска контейнеров сервисы будут доступны по адресам:
+
 *Для Djnago*
-```https://http://localhost:8000/django/```
+```http://localhost:8000/django/```
 
 *Для FastAPI*
- ```https://http://localhost:9000/fastapi/```
+ ```http://localhost:9000/fastapi/```
 
 
 
